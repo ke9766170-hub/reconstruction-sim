@@ -1,46 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="个人博客 - 记录学习与思考">
-  <title>个人博客</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>病后灾区重建 — 虚拟仿真原型</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- 导航栏 -->
-  <nav class="navbar">
-    <div class="container">
-      <a href="index.html" class="navbar-brand">✍️ 我的博客</a>
-      <ul class="navbar-nav">
-        <li><a href="index.html" id="nav-home">首页</a></li>
-        <li><a href="about.html" id="nav-about">关于</a></li>
-      </ul>
+  <header>
+    <h1>病后灾区重建 仿真原型</h1>
+    <div class="controls-top">
+      <button id="btnStart">播放</button>
+      <button id="btnPause">暂停</button>
+      <button id="btnReset">重置</button>
+      <button id="btnSave">保存方案</button>
+      <button id="btnExportCSV">导出 CSV 报告</button>
     </div>
-  </nav>
+  </header>
 
-  <!-- 主内容区 -->
-  <main class="container">
-    <section class="hero">
-      <h1 class="hero-title">📝 记录学习，分享成长</h1>
-      <p class="hero-subtitle">在这里，写下每一个值得记录的瞬间。</p>
-    </section>
+  <main>
+    <aside class="left-panel">
+      <h2>场景参数</h2>
+      <label>资源分配（单位：施工队） <span id="resVal">5</span>
+        <input id="resource" type="range" min="0" max="20" value="5" />
+      </label>
+      <label>优先策略
+        <select id="strategy">
+          <option value="byPopulation">按人口优先</option>
+          <option value="byDamage">按受损程度优先</option>
+          <option value="byVulnerable">按脆弱群体优先</option>
+        </select>
+      </label>
+      <div class="preset">
+        <button id="preset1">示例场景 A</button>
+        <button id="preset2">示例场景 B</button>
+      </div>
+    </aside>
 
-    <section class="articles-section">
-      <div id="article-list" class="article-list">
-        <!-- 由 main.js 动态渲染 -->
+    <section class="map-area">
+      <div id="map"></div>
+      <div class="timebar">
+        <input id="timeSlider" type="range" min="0" max="30" value="0" />
+        <div>时间步：<span id="timeLabel">0</span></div>
       </div>
     </section>
+
+    <aside class="right-panel">
+      <h2>指标与图表</h2>
+      <canvas id="chart" width="400" height="240"></canvas>
+      <div class="metrics">
+        <p>重建覆盖率：<span id="metricReconstruct">0%</span></p>
+        <p>风险指数：<span id="metricRisk">0</span></p>
+      </div>
+    </aside>
   </main>
 
-  <!-- 页脚 -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 个人博客 · 用 ❤️ 和纯 HTML/CSS/JS 构建</p>
-    </div>
+  <footer>
+    <small>示例原型 — 可用于教学与决策支持演示</small>
   </footer>
 
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
