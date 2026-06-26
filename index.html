@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="个人博客 - 记录学习与思考">
+  <title>个人博客</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">✍️ 我的博客</a>
+      <ul class="navbar-nav">
+        <li><a href="index.html" id="nav-home">首页</a></li>
+        <li><a href="about.html" id="nav-about">关于</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <main class="container">
+    <section class="hero">
+      <h1 class="hero-title">📝 记录学习，分享成长</h1>
+      <p class="hero-subtitle">在这里，写下每一个值得记录的瞬间。</p>
+    </section>
+
+    <section class="articles-section">
+      <div id="article-list" class="article-list">
+        <!-- 由 main.js 动态渲染 -->
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 个人博客 · 用 ❤️ 和纯 HTML/CSS/JS 构建</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
