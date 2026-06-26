@@ -7,15 +7,14 @@ let simTime = 0;
 const MAX_TIME = 30;
 
 function initMap(){
-  map = L.map('map').setView([31.23,121.47], 12); // 示例坐标（上海）
+  map = L.map('map').setView([31.23,121.47], 12);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
   markersLayer = L.layerGroup().addTo(map);
-  // 生成示例小区点数据
   for(let i=0;i<12;i++){
     const lat = 31.05 + Math.random()*0.36;
     const lng = 121.25 + Math.random()*0.5;
     const pop = Math.round(200 + Math.random()*1500);
-    const damage = +(0.3 + Math.random()*0.7).toFixed(2); // 0..1
+    const damage = +(0.3 + Math.random()*0.7).toFixed(2);
     const vulnerable = Math.random()<0.2;
     neighborhoods.push({id:i,lat,lng,pop,damage,vulnerable,reconstructed:0});
   }
@@ -33,7 +32,6 @@ function drawNeighborhoods(){
 }
 
 function getColorByDamage(d){
-  // d: 0..1
   if(d>0.75) return '#b30000';
   if(d>0.5) return '#ff6600';
   if(d>0.25) return '#ffcc00';
@@ -43,28 +41,22 @@ function getColorByDamage(d){
 function stepSimulation(){
   const resource = +document.getElementById('resource').value;
   const strategy = document.getElementById('strategy').value;
-  // 计算优先级权重
   const sortKey = (a,b)=>{
     if(strategy==='byPopulation') return b.pop - a.pop;
     if(strategy==='byDamage') return (b.damage*(1-b.reconstructed)) - (a.damage*(1-a.reconstructed));
     if(strategy==='byVulnerable') return (b.vulnerable?1:0) - (a.vulnerable?1:0);
     return 0;
   }
-  // 复制并排序
   const list = neighborhoods.slice().sort(sortKey);
-  // 资源分配：每单位资源按顺序分配，效果是减少 damage -> increase reconstructed
   let remaining = resource;
   for(const n of list){
     if(remaining<=0) break;
-    const need = (1 - n.reconstructed) * n.damage; // 简化需求量
-    const assign = Math.min(1, remaining/5); // 每次步每个分配上限
-    const delta = 0.02 * assign; // 重建进度基准
+    const assign = Math.min(1, remaining/5);
+    const delta = 0.02 * assign;
     n.reconstructed = Math.min(1, n.reconstructed + delta);
     remaining -= assign;
   }
-  // 自然恶化/风险波动
   neighborhoods.forEach(n=>{
-    // 若未重建，高风险略微上升
     if(n.reconstructed<0.5){
       n.damage = Math.min(1, n.damage + 0.002);
     }
@@ -139,7 +131,6 @@ function exportCSV(){
   const a = document.createElement('a'); a.href=url; a.download='report.csv'; a.click(); URL.revokeObjectURL(url);
 }
 
-// UI wiring
 document.addEventListener('DOMContentLoaded',()=>{
   initMap();
   initChart();
